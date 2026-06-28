@@ -52,7 +52,7 @@ const THEME_KEY = 'hv.theme';
 const MODE_KEY = 'hv.mode';
 
 export default function App() {
-  const [route, navigate] = useRoute();
+  const [route, navigate, direction] = useRoute();
   const [themeId, setThemeId] = useState<string>(
     () => localStorage.getItem(THEME_KEY) ?? 'neutral',
   );
@@ -183,7 +183,16 @@ export default function App() {
 
         {/* ---- Page content (keyed for transition) ---- */}
         <main style={{flex: 1, width: '100%'}}>
-          <div key={route.name === 'post' ? `post-${route.slug}` : route.name} className="hv-page">
+          <div
+            key={route.name === 'post' ? `post-${route.slug}` : route.name}
+            className={
+              direction === 'right'
+                ? 'hv-page-right'
+                : direction === 'left'
+                  ? 'hv-page-left'
+                  : 'hv-page'
+            }
+          >
             {route.name === 'home' && <Home navigate={navigate} />}
             {route.name === 'cv' && <CV />}
             {route.name === 'projects' && <Projects />}
