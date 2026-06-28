@@ -41,3 +41,57 @@ export function PinIcon({size = 16}: {size?: number}) {
     </svg>
   );
 }
+
+export function SunIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+
+export function MoonIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
+  );
+}
+
+export function PaletteIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-3.9-4-7-9-7z" />
+      <circle cx="7.5" cy="11" r="1.1" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="7.5" r="1.1" fill="currentColor" stroke="none" />
+      <circle cx="16.5" cy="11" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function PencilIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+    </svg>
+  );
+}
+
+export function TrashIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  );
+}
+
+export function PlusIcon({size = 18}: {size?: number}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{width: size, height: size, display: 'inline-block', verticalAlign: 'middle'}} aria-hidden>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}

@@ -8,9 +8,10 @@ import {Button} from '@astryxdesign/core/Button';
 
 import {projects} from '../data/projects';
 import {GitHubIcon} from '../icons';
+import {Reveal} from '../Reveal';
 
 const wrap: React.CSSProperties = {
-  maxWidth: 980,
+  maxWidth: 1000,
   margin: '0 auto',
   padding: '40px 20px',
   width: '100%',
@@ -30,51 +31,57 @@ export function Projects() {
   return (
     <div style={wrap}>
       <VStack gap={5}>
-        <VStack gap={2}>
-          <Heading level={1}>Projects</Heading>
-          <Text type="large" color="secondary">
-            Things I've built — most are open source on GitHub.
-          </Text>
-        </VStack>
+        <Reveal>
+          <VStack gap={2}>
+            <Heading level={1}>Projects</Heading>
+            <Text type="large" color="secondary">Things I've built — most are open source on GitHub.</Text>
+          </VStack>
+        </Reveal>
 
-        <HStack gap={2} wrap="wrap">
-          {allTags.map((t) => (
-            <Button
-              key={t}
-              label={t}
-              size="sm"
-              variant={filter === t ? 'primary' : 'secondary'}
-              clickAction={() => setFilter(t)}
-            />
-          ))}
-        </HStack>
+        <Reveal delay={60}>
+          <HStack gap={2} wrap="wrap">
+            {allTags.map((t) => (
+              <Button
+                key={t}
+                label={t}
+                size="sm"
+                variant={filter === t ? 'primary' : 'secondary'}
+                clickAction={() => setFilter(t)}
+              />
+            ))}
+          </HStack>
+        </Reveal>
 
         <Grid columns={{minWidth: 300}} gap={4}>
-          {shown.map((p) => (
-            <Card key={p.name} padding={5}>
-              <VStack gap={3}>
-                <HStack gap={2} vAlign="center" justify="between">
-                  <Heading level={4}>{p.title}</Heading>
-                  <HStack gap={2} vAlign="center">
-                    {p.stars > 0 ? <Badge variant="warning" label={`★ ${p.stars}`} /> : null}
-                    <Badge variant="neutral" label={p.year} />
-                  </HStack>
-                </HStack>
-                <Text type="body" color="secondary">{p.description}</Text>
-                <HStack gap={2} wrap="wrap">
-                  <Badge variant="success" label={p.language} />
-                  {p.tags.map((t) => (
-                    <Badge key={t} variant="info" label={t} />
-                  ))}
-                </HStack>
-                <HStack gap={2} wrap="wrap">
-                  <Button label="Code" variant="secondary" size="sm" icon={<GitHubIcon size={15} />} href={p.url} target="_blank" />
-                  {p.demo ? (
-                    <Button label="Live demo" variant="ghost" size="sm" href={p.demo} target="_blank" />
-                  ) : null}
-                </HStack>
-              </VStack>
-            </Card>
+          {shown.map((p, i) => (
+            <Reveal key={p.name} delay={(i % 3) * 70}>
+              <div className="hv-lift">
+                <Card padding={5}>
+                  <VStack gap={3}>
+                    <HStack gap={2} vAlign="center" justify="between">
+                      <Heading level={4}>{p.title}</Heading>
+                      <HStack gap={2} vAlign="center">
+                        {p.stars > 0 ? <Badge variant="warning" label={`★ ${p.stars}`} /> : null}
+                        <Badge variant="neutral" label={p.year} />
+                      </HStack>
+                    </HStack>
+                    <Text type="body" color="secondary">{p.description}</Text>
+                    <HStack gap={2} wrap="wrap">
+                      <Badge variant="success" label={p.language} />
+                      {p.tags.map((t) => (
+                        <Badge key={t} variant="info" label={t} />
+                      ))}
+                    </HStack>
+                    <HStack gap={2} wrap="wrap">
+                      <Button label="Code" variant="secondary" size="sm" icon={<GitHubIcon size={15} />} href={p.url} target="_blank" />
+                      {p.demo ? (
+                        <Button label="Live demo" variant="ghost" size="sm" href={p.demo} target="_blank" />
+                      ) : null}
+                    </HStack>
+                  </VStack>
+                </Card>
+              </div>
+            </Reveal>
           ))}
         </Grid>
       </VStack>

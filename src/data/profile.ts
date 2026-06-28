@@ -1,52 +1,55 @@
 // Edit this file to update your CV / about content.
-// Fields marked TODO are placeholders — fill in your real details.
+// Experience is informed by the public LinkedIn profile (Meta, Singapore;
+// Globant/Portugal connection). Items marked TODO need your exact titles/dates.
 
 export const profile = {
   name: 'Humberto Virtudes',
-  tagline: 'Software Engineer · Builder of tools, design systems & AI workflows',
+  tagline: 'Front-End Specialist · Crafting fast, accessible, delightful interfaces',
   location: 'Singapore',
   email: 'humberto.virtudes@gmail.com',
   github: 'https://github.com/humbertovirtudes',
-  // TODO: add these if you want them shown
-  linkedin: '', // e.g. 'https://www.linkedin.com/in/humbertovirtudes'
+  linkedin: 'https://www.linkedin.com/in/humbertovirtudes/',
   website: '',
 
-  // Short intro shown on the home / CV page
   about: [
-    "I'm a software engineer based in Singapore who likes turning rough ideas into shipped, usable things.",
-    'My work spans full-stack web (React / TypeScript, Python / Django), design systems, and practical AI tooling — from a video-to-shorts pipeline to a ComfyUI front-end and design-system experiments.',
-    "I learn by building in the open. Most of what I make ends up on GitHub.",
+    "I'm a front-end specialist based in Singapore. I care about the details that make an interface feel effortless — motion, accessibility, performance, and a design system that scales.",
+    'I currently build at Meta, and my work spans React / TypeScript front-ends, design systems (StyleX), and practical AI tooling — from a video-to-shorts pipeline to a ComfyUI front-end.',
+    "I learn in the open. Most of what I make ends up on GitHub.",
   ],
 
-  // Skills grouped by area — derived from public project work
+  // Skills grouped by area — front-end forward.
   skills: [
-    {group: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'C#', 'HTML / CSS']},
-    {group: 'Frontend', items: ['React', 'Vite', 'Design Systems', 'StyleX', 'Tailwind']},
-    {group: 'Backend', items: ['Django REST Framework', 'Node.js', 'REST APIs']},
-    {group: 'AI / Tooling', items: ['ComfyUI', 'LLM workflows', 'Video processing', 'Automation']},
-    {group: 'Other', items: ['Unity / DOTS', 'Git', 'GitHub Actions']},
+    {group: 'Core', items: ['React', 'TypeScript', 'JavaScript (ES2023+)', 'HTML5', 'CSS3']},
+    {group: 'UI & Design Systems', items: ['StyleX', 'Tailwind', 'Design Tokens', 'Astryx', 'Accessibility (WCAG)']},
+    {group: 'Motion & Craft', items: ['CSS Animations', 'Transitions', 'Micro-interactions', 'Responsive Design']},
+    {group: 'Tooling', items: ['Vite', 'Node.js', 'Git', 'GitHub Actions']},
+    {group: 'Backend & Other', items: ['Django REST', 'Python', 'Unity / C#', 'REST APIs']},
   ],
 
-  // Experience — TODO: replace with your real roles. Kept honest & editable.
+  // Experience — anchored to confirmed public facts. Fill TODOs with exact dates/titles.
   experience: [
     {
-      role: 'Add your current role',
-      org: 'Company / Organization',
-      period: 'YYYY — Present',
+      role: 'Software Engineer',
+      org: 'Meta',
+      period: 'Present', // TODO: add your start year (e.g. '2021 — Present')
+      location: 'Singapore',
       points: [
-        'Describe a key responsibility or achievement.',
-        'Quantify impact where you can (numbers, scale, outcomes).',
+        'Engineer on the Helpdesk Chat Engineering team, building internal tooling and interfaces used across the company.',
+        'Focus on front-end craft: React/TypeScript UI, design-system adoption, and accessible, performant experiences.',
+        '// TODO: add a quantified achievement (scale, impact, metric).',
       ],
     },
     {
-      role: 'Previous role',
-      org: 'Company / Organization',
-      period: 'YYYY — YYYY',
-      points: ['What you built or improved.'],
+      role: 'Front-End / Software Engineer',
+      org: 'Previous role',
+      period: 'YYYY — YYYY', // TODO
+      location: '',
+      points: [
+        '// TODO: describe what you built or improved before Meta.',
+      ],
     },
   ],
 
-  // Education & certifications — Little Lemon capstone is the Meta Back-End cert.
   education: [
     {
       title: 'Meta Back-End Developer (Professional Certificate)',

@@ -8,11 +8,12 @@ import {Divider} from '@astryxdesign/core/Divider';
 
 import {profile} from '../data/profile';
 import {projects} from '../data/projects';
-import {posts} from '../data/blog';
+import {usePosts} from '../usePosts';
 import {GitHubIcon, MailIcon, LinkedInIcon, PinIcon} from '../icons';
+import {Reveal} from '../Reveal';
 
 const wrap: React.CSSProperties = {
-  maxWidth: 980,
+  maxWidth: 1000,
   margin: '0 auto',
   padding: '0 20px',
   width: '100%',
@@ -21,34 +22,40 @@ const wrap: React.CSSProperties = {
 
 export function Home({navigate}: {navigate: (to: string) => void}) {
   const featured = projects.filter((p) => p.featured).slice(0, 4);
-  const latest = posts.slice(0, 2);
+  const latest = usePosts().slice(0, 2);
 
   return (
     <div>
       {/* Hero */}
       <section style={{position: 'relative', overflow: 'hidden'}}>
-        <div
-          className="hv-grid"
-          style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}
-          aria-hidden
-        />
-        <div style={{...wrap, position: 'relative', padding: '72px 20px 40px'}}>
+        <div className="hv-aurora" aria-hidden />
+        <div className="hv-grid" style={{position: 'absolute', inset: 0, pointerEvents: 'none'}} aria-hidden />
+        <div style={{...wrap, position: 'relative', padding: '84px 20px 48px', zIndex: 1}}>
           <VStack gap={5}>
-            <Badge variant="success" label="Open to opportunities" />
+            <div className="hv-enter hv-enter-1">
+              <Badge variant="success" label="Front-End Specialist · Open to opportunities" />
+            </div>
             <Heading level={1} type="display-1">
-              {profile.name}
+              <span className="hv-enter hv-enter-1" style={{display: 'block'}}>Hi, I'm Humberto.</span>
+              <span className="hv-gradient-text hv-enter hv-enter-2" style={{display: 'block'}}>
+                I build delightful interfaces.
+              </span>
             </Heading>
-            <div style={{maxWidth: 640}}>
+            <div className="hv-enter hv-enter-3" style={{maxWidth: 660}}>
               <Text type="large" color="secondary">{profile.tagline}</Text>
             </div>
-            <HStack gap={2} vAlign="center" wrap="wrap">
+            <div className="hv-enter hv-enter-3">
               <Badge variant="neutral" label={profile.location} icon={<PinIcon size={14} />} />
-            </HStack>
+            </div>
             <HStack gap={3} vAlign="center" wrap="wrap">
-              <Button label="View projects" variant="primary" size="lg" clickAction={() => navigate('/projects')} />
-              <Button label="Read the CV" variant="secondary" size="lg" clickAction={() => navigate('/cv')} />
+              <div className="hv-enter hv-enter-4">
+                <Button label="View projects" variant="primary" size="lg" clickAction={() => navigate('/projects')} />
+              </div>
+              <div className="hv-enter hv-enter-4">
+                <Button label="Read the CV" variant="secondary" size="lg" clickAction={() => navigate('/cv')} />
+              </div>
             </HStack>
-            <HStack gap={2} vAlign="center" wrap="wrap">
+            <HStack gap={1} vAlign="center" wrap="wrap" className="hv-enter hv-enter-4">
               <Button label="GitHub" variant="ghost" size="sm" icon={<GitHubIcon size={16} />} href={profile.github} target="_blank" />
               <Button label="Email" variant="ghost" size="sm" icon={<MailIcon size={16} />} href={`mailto:${profile.email}`} />
               {profile.linkedin ? (
@@ -60,46 +67,56 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
       </section>
 
       {/* About */}
-      <section style={{...wrap, paddingTop: 8, paddingBottom: 32}}>
-        <Card padding={6}>
-          <VStack gap={3}>
-            <Heading level={3}>About</Heading>
-            {profile.about.map((para, i) => (
-              <Text key={i} type="body" color="secondary">{para}</Text>
-            ))}
-          </VStack>
-        </Card>
+      <section style={{...wrap, paddingTop: 12, paddingBottom: 36}}>
+        <Reveal>
+          <div className="hv-lift">
+            <Card padding={6}>
+              <VStack gap={3}>
+                <Heading level={3}>About</Heading>
+                {profile.about.map((para, i) => (
+                  <Text key={i} type="body" color="secondary">{para}</Text>
+                ))}
+              </VStack>
+            </Card>
+          </div>
+        </Reveal>
       </section>
 
       {/* Featured projects */}
-      <section style={{...wrap, paddingBottom: 32}}>
+      <section style={{...wrap, paddingBottom: 36}}>
         <VStack gap={4}>
-          <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
-            <Heading level={2}>Featured projects</Heading>
-            <Button label="All projects →" variant="ghost" size="sm" clickAction={() => navigate('/projects')} />
-          </HStack>
+          <Reveal>
+            <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
+              <Heading level={2}>Featured projects</Heading>
+              <Button label="All projects →" variant="ghost" size="sm" clickAction={() => navigate('/projects')} />
+            </HStack>
+          </Reveal>
           <Grid columns={{minWidth: 280}} gap={4}>
-            {featured.map((p) => (
-              <Card key={p.name} padding={5}>
-                <VStack gap={3}>
-                  <HStack gap={2} vAlign="center" justify="between">
-                    <Heading level={4}>{p.title}</Heading>
-                    <Badge variant="neutral" label={p.year} />
-                  </HStack>
-                  <Text type="body" color="secondary">{p.description}</Text>
-                  <HStack gap={2} wrap="wrap">
-                    {p.tags.map((t) => (
-                      <Badge key={t} variant="info" label={t} />
-                    ))}
-                  </HStack>
-                  <HStack gap={2} wrap="wrap">
-                    <Button label="Code" variant="secondary" size="sm" icon={<GitHubIcon size={15} />} href={p.url} target="_blank" />
-                    {p.demo ? (
-                      <Button label="Live demo" variant="ghost" size="sm" href={p.demo} target="_blank" />
-                    ) : null}
-                  </HStack>
-                </VStack>
-              </Card>
+            {featured.map((p, i) => (
+              <Reveal key={p.name} delay={i * 80}>
+                <div className="hv-lift">
+                  <Card padding={5}>
+                    <VStack gap={3}>
+                      <HStack gap={2} vAlign="center" justify="between">
+                        <Heading level={4}>{p.title}</Heading>
+                        <Badge variant="neutral" label={p.year} />
+                      </HStack>
+                      <Text type="body" color="secondary">{p.description}</Text>
+                      <HStack gap={2} wrap="wrap">
+                        {p.tags.map((t) => (
+                          <Badge key={t} variant="info" label={t} />
+                        ))}
+                      </HStack>
+                      <HStack gap={2} wrap="wrap">
+                        <Button label="Code" variant="secondary" size="sm" icon={<GitHubIcon size={15} />} href={p.url} target="_blank" />
+                        {p.demo ? (
+                          <Button label="Live demo" variant="ghost" size="sm" href={p.demo} target="_blank" />
+                        ) : null}
+                      </HStack>
+                    </VStack>
+                  </Card>
+                </div>
+              </Reveal>
             ))}
           </Grid>
         </VStack>
@@ -108,27 +125,33 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
       <div style={wrap}><Divider /></div>
 
       {/* Latest writing */}
-      <section style={{...wrap, paddingTop: 32, paddingBottom: 16}}>
+      <section style={{...wrap, paddingTop: 36, paddingBottom: 16}}>
         <VStack gap={4}>
-          <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
-            <Heading level={2}>Latest writing</Heading>
-            <Button label="All posts →" variant="ghost" size="sm" clickAction={() => navigate('/blog')} />
-          </HStack>
+          <Reveal>
+            <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
+              <Heading level={2}>Latest writing</Heading>
+              <Button label="All posts →" variant="ghost" size="sm" clickAction={() => navigate('/blog')} />
+            </HStack>
+          </Reveal>
           <Grid columns={{minWidth: 300}} gap={4}>
-            {latest.map((post) => (
-              <Card key={post.slug} padding={5} variant="muted">
-                <VStack gap={2}>
-                  <HStack gap={2} vAlign="center" wrap="wrap">
-                    <Text type="supporting" color="secondary">{formatDate(post.date)}</Text>
-                    <Text type="supporting" color="secondary">· {post.readingMinutes} min read</Text>
-                  </HStack>
-                  <Heading level={4}>{post.title}</Heading>
-                  <Text type="body" color="secondary">{post.excerpt}</Text>
-                  <div>
-                    <Button label="Read post →" variant="ghost" size="sm" clickAction={() => navigate(`/blog/${post.slug}`)} />
-                  </div>
-                </VStack>
-              </Card>
+            {latest.map((post, i) => (
+              <Reveal key={post.slug} delay={i * 80}>
+                <div className="hv-lift">
+                  <Card padding={5} variant="muted">
+                    <VStack gap={2}>
+                      <HStack gap={2} vAlign="center" wrap="wrap">
+                        <Text type="supporting" color="secondary">{formatDate(post.date)}</Text>
+                        <Text type="supporting" color="secondary">· {post.readingMinutes} min read</Text>
+                      </HStack>
+                      <Heading level={4}>{post.title}</Heading>
+                      <Text type="body" color="secondary">{post.excerpt}</Text>
+                      <div>
+                        <Button label="Read post →" variant="ghost" size="sm" clickAction={() => navigate(`/blog/${post.slug}`)} />
+                      </div>
+                    </VStack>
+                  </Card>
+                </div>
+              </Reveal>
             ))}
           </Grid>
         </VStack>
