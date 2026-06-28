@@ -4,7 +4,7 @@
 
 export const profile = {
   name: 'Humberto Virtudes',
-  tagline: 'Front-End Specialist · Crafting fast, accessible, delightful interfaces',
+  tagline: 'Staff Software Engineer & Front-End Specialist · Crafting fast, accessible, delightful interfaces',
   location: 'Singapore',
   email: 'humberto.virtudes@gmail.com',
   github: 'https://github.com/humbertovirtudes',
@@ -12,7 +12,7 @@ export const profile = {
   website: '',
 
   about: [
-    "I'm a front-end specialist based in Singapore. I care about the details that make an interface feel effortless — motion, accessibility, performance, and a design system that scales.",
+    "I'm a Staff Software Engineer and front-end specialist based in Singapore. I care about the details that make an interface feel effortless — motion, accessibility, performance, and a design system that scales.",
     'I currently build at Meta, and my work spans React / TypeScript front-ends, design systems (StyleX), and practical AI tooling — from a video-to-shorts pipeline to a ComfyUI front-end.',
     "I learn in the open. Most of what I make ends up on GitHub.",
   ],
@@ -29,7 +29,7 @@ export const profile = {
   // Experience — anchored to confirmed public facts. Fill TODOs with exact dates/titles.
   experience: [
     {
-      role: 'Software Engineer',
+      role: 'Staff Software Engineer',
       org: 'Meta',
       period: 'Present', // TODO: add your start year (e.g. '2021 — Present')
       location: 'Singapore',
