@@ -156,6 +156,87 @@
 
   article ul, article ol { padding-left: 20px; }
 
+  /* ============================================================
+     Animated tile-grid hover background (port of EPS
+     EPSAnimatedTileGridBackground). Tiles flicker on an 8s loop with
+     scattered negative delays; grid lines stagger in from the entry corner;
+     a soft glow washes the top. Driven by the .is-active class set on hover. */
+  .hv-tilegrid {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    color: var(--color-icon-blue); /* currentColor drives tiles/lines/glow */
+  }
+  /* tiles container */
+  .hv-tg-tiles {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .hv-tilegrid.is-active .hv-tg-tiles {
+    opacity: 0.12;
+    transition: opacity 400ms ease-in 100ms;
+  }
+  .hv-tg-tile {
+    position: absolute;
+    background-color: currentColor;
+    opacity: 0;
+    animation-name: hv-tg-pulse;
+    animation-duration: 8s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: paused;
+  }
+  .hv-tilegrid.is-active .hv-tg-tile { animation-play-state: running; }
+  @keyframes hv-tg-pulse {
+    0%   { opacity: 0; }
+    11%  { opacity: 1; }
+    22%  { opacity: 1; }
+    33%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  /* grid lines */
+  .hv-tg-lines { position: absolute; inset: 0; }
+  .hv-tg-hline {
+    position: absolute;
+    left: 0; right: 0;
+    height: 0.5px;
+    background-color: currentColor;
+    opacity: 0.1;
+    transform: scaleX(0);
+    transition: transform 150ms ease-out;
+  }
+  .hv-tg-vline {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 0.5px;
+    background-color: currentColor;
+    opacity: 0.1;
+    transform: scaleY(0);
+    transition: transform 150ms ease-out;
+  }
+  .hv-tilegrid.is-active .hv-tg-hline { transform: scaleX(1); transition-duration: 200ms; }
+  .hv-tilegrid.is-active .hv-tg-vline { transform: scaleY(1); transition-duration: 200ms; }
+  /* glow wash near the top */
+  .hv-tg-glow {
+    position: absolute;
+    left: 50%;
+    bottom: 55%;
+    width: 150%;
+    padding-bottom: 150%;
+    transform: translateX(-50%);
+    background-color: currentColor;
+    border-radius: 9999px;
+    filter: blur(35px);
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+  .hv-tilegrid.is-active .hv-tg-glow { opacity: 0.15; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;

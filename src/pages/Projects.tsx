@@ -8,6 +8,7 @@ import {Button} from '@astryxdesign/core/Button';
 
 import {projects} from '../data/projects';
 import {GitHubIcon} from '../icons';
+import {TileGridHover} from '../TileGridHover';
 import {Reveal} from '../Reveal';
 
 const wrap: React.CSSProperties = {
@@ -56,7 +57,7 @@ export function Projects() {
           {shown.map((p, i) => (
             <Reveal key={p.name} delay={(i % 3) * 70}>
               <div className="hv-lift">
-                <Card padding={5}>
+                <TileGridHover surface padding={20} rows={4} columns={6}>
                   <VStack gap={3}>
                     <HStack gap={2} vAlign="center" justify="between">
                       <Heading level={4}>{p.title}</Heading>
@@ -79,7 +80,7 @@ export function Projects() {
                       ) : null}
                     </HStack>
                   </VStack>
-                </Card>
+                </TileGridHover>
               </div>
             </Reveal>
           ))}

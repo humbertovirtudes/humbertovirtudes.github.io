@@ -11,6 +11,7 @@ import {projects} from '../data/projects';
 import {usePosts} from '../usePosts';
 import {GitHubIcon, MailIcon, LinkedInIcon, PinIcon} from '../icons';
 import {Reveal} from '../Reveal';
+import {TileGridHover} from '../TileGridHover';
 
 const wrap: React.CSSProperties = {
   maxWidth: 1000,
@@ -95,7 +96,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             {featured.map((p, i) => (
               <Reveal key={p.name} delay={i * 80}>
                 <div className="hv-lift">
-                  <Card padding={5}>
+                  <TileGridHover surface padding={20} rows={4} columns={6}>
                     <VStack gap={3}>
                       <HStack gap={2} vAlign="center" justify="between">
                         <Heading level={4}>{p.title}</Heading>
@@ -114,7 +115,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
                         ) : null}
                       </HStack>
                     </VStack>
-                  </Card>
+                  </TileGridHover>
                 </div>
               </Reveal>
             ))}
@@ -137,7 +138,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             {latest.map((post, i) => (
               <Reveal key={post.slug} delay={i * 80}>
                 <div className="hv-lift">
-                  <Card padding={5}>
+                  <TileGridHover surface padding={20} rows={4} columns={6}>
                     <VStack gap={2}>
                       <HStack gap={2} vAlign="center" wrap="wrap">
                         <Text type="supporting" color="secondary">{formatDate(post.date)}</Text>
@@ -149,7 +150,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
                         <Button label="Read post →" variant="ghost" size="sm" clickAction={() => navigate(`/blog/${post.slug}`)} />
                       </div>
                     </VStack>
-                  </Card>
+                  </TileGridHover>
                 </div>
               </Reveal>
             ))}
