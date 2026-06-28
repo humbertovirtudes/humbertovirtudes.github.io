@@ -14,6 +14,21 @@
   html { scroll-behavior: smooth; }
   html, body, #root { margin: 0; padding: 0; min-height: 100%; }
 
+  /* ---------- Force color-scheme to match the app's mode ----------
+   * BUG FIX: Astryx defaults <html> to `color-scheme: light dark`, which makes
+   * light-dark() follow the OS preference. On a dark-OS machine, the site's
+   * "light" toggle was still rendering dark backgrounds. We pin color-scheme
+   * to the explicit data-theme the Theme provider sets on <html>, so the app's
+   * own toggle always wins over the OS. */
+  html[data-theme='light'],
+  html[data-theme='light'] body {
+    color-scheme: light;
+  }
+  html[data-theme='dark'],
+  html[data-theme='dark'] body {
+    color-scheme: dark;
+  }
+
   /* Body inherits the themed page background. The Theme provider syncs
    * data-astryx-theme + data-theme onto <html>, so these tokens resolve here
    * and light-dark() picks the correct value for the active mode. */
@@ -153,34 +168,27 @@
 }
 
 /* ============================================================
-   View Transitions — circular theme-reveal from the toggle button
-   (emanates the new theme like a ripple, à la imabi.org)
-   These pseudo-elements live OUTSIDE @layer so they always win.
+   View Transitions — circular theme-reveal from the toggle button.
+   Direction is driven by [data-vt-dir] on <html> (set in viewTransition.ts):
+     - out (dark->light): NEW snapshot on top, grows from the button.
+     - in  (light->dark): OLD snapshot on top, shrinks into the button.
+   We disable the browser's default cross-fade so only our clip-path shows.
    ============================================================ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-/* The incoming theme is painted on top and clipped open from the button. */
-::view-transition-new(root) {
-  animation: hv-theme-reveal 1.1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-::view-transition-old(root) {
-  animation: none;
-  z-index: 1;
-}
+
+/* Default / 'out': reveal the new theme on top. */
+::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2; }
 
-@keyframes hv-theme-reveal {
-  from {
-    clip-path: circle(0% at var(--hv-ripple-x, 50%) var(--hv-ripple-y, 0%));
-  }
-  to {
-    clip-path: circle(150% at var(--hv-ripple-x, 50%) var(--hv-ripple-y, 0%));
-  }
-}
+/* 'in': lift the OLD snapshot on top so it can collapse into the button. */
+[data-vt-dir='in']::view-transition-old(root) { z-index: 2; }
+[data-vt-dir='in']::view-transition-new(root) { z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
   ::view-transition-new(root) { animation: none; }
 }

@@ -68,6 +68,9 @@ export default function App() {
   }, [themeId]);
   useEffect(() => {
     localStorage.setItem(MODE_KEY, mode);
+    // Pin color-scheme to the app's explicit mode so light-dark() never falls
+    // back to the OS preference (which caused dark backgrounds in light mode).
+    document.documentElement.style.colorScheme = mode;
   }, [mode]);
 
   useEffect(() => {
@@ -164,7 +167,12 @@ export default function App() {
                   size="sm"
                   clickAction={(e) => {
                     const origin = pointFromEvent(e);
-                    runThemeTransition(origin, () => setMode(mode === 'dark' ? 'light' : 'dark'));
+                    const goingDark = mode !== 'dark';
+                    // Going dark: light collapses INTO the button.
+                    // Going light: light grows OUT from the button.
+                    runThemeTransition(origin, () => setMode(goingDark ? 'dark' : 'light'), {
+                      direction: goingDark ? 'in' : 'out',
+                    });
                   }}
                 />
               </HStack>

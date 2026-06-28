@@ -33,7 +33,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
         <div style={{...wrap, position: 'relative', padding: '84px 20px 48px', zIndex: 1}}>
           <VStack gap={5}>
             <div className="hv-enter hv-enter-1">
-              <Badge variant="success" label="Staff Software Engineer · Front-End Specialist" />
+              <Badge variant="success" label="Staff Software Engineer · Front-End Specialist · @Meta" />
             </div>
             <Heading level={1} type="display-1">
               <span className="hv-enter hv-enter-1" style={{display: 'block'}}>Hi, I'm Humberto.</span>
