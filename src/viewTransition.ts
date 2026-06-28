@@ -10,11 +10,24 @@
 // farthest viewport corner and target the correct snapshot per direction.
 // A data attribute on <html> flips the pseudo-element stacking order so the
 // animated snapshot is always on top.
+//
+// The toggle is NEVER disabled. If a click arrives while a transition is still
+// running, we skip the in-flight one and apply the new state immediately, so
+// rapid toggling always feels responsive.
 
 type Point = {x: number; y: number};
 type Direction = 'in' | 'out';
 
+type ViewTransition = {
+  ready: Promise<void>;
+  finished: Promise<void>;
+  skipTransition?: () => void;
+};
+
 const DURATION = 800; // ms
+
+let active: ViewTransition | null = null;
+let activeAnim: Animation | null = null;
 
 export function runThemeTransition(
   origin: Point | null,
@@ -22,10 +35,7 @@ export function runThemeTransition(
   opts?: {direction?: Direction},
 ): void {
   const doc = document as Document & {
-    startViewTransition?: (cb: () => void) => {
-      ready: Promise<void>;
-      finished: Promise<void>;
-    };
+    startViewTransition?: (cb: () => void) => ViewTransition;
   };
 
   const prefersReduced =
@@ -35,6 +45,15 @@ export function runThemeTransition(
   if (!doc.startViewTransition || prefersReduced) {
     apply();
     return;
+  }
+
+  // A transition is already in flight — don't block the click. Cancel the
+  // running animation and skip the old transition so the new one starts clean.
+  if (active) {
+    activeAnim?.cancel();
+    active.skipTransition?.();
+    active = null;
+    activeAnim = null;
   }
 
   const inward = opts?.direction === 'in';
@@ -52,6 +71,7 @@ export function runThemeTransition(
   document.documentElement.setAttribute('data-vt-dir', inward ? 'in' : 'out');
 
   const transition = doc.startViewTransition(apply);
+  active = transition;
 
   transition.ready
     .then(() => {
@@ -61,7 +81,7 @@ export function runThemeTransition(
         ? '::view-transition-old(root)'
         : '::view-transition-new(root)';
 
-      document.documentElement.animate(
+      activeAnim = document.documentElement.animate(
         {
           clipPath: [
             `circle(${from} at ${x}px ${y}px)`,
@@ -79,7 +99,13 @@ export function runThemeTransition(
     .catch(() => {});
 
   transition.finished
-    .finally(() => document.documentElement.removeAttribute('data-vt-dir'))
+    .finally(() => {
+      if (active === transition) {
+        active = null;
+        activeAnim = null;
+        document.documentElement.removeAttribute('data-vt-dir');
+      }
+    })
     .catch(() => {});
 }
 
