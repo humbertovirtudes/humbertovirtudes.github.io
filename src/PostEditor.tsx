@@ -163,7 +163,7 @@ export function PostEditor({isOpen, onOpenChange, post, onSaved}: Props) {
             )}
 
             {error ? (
-              <Text type="supporting" color="primary" style={{color: 'var(--color-text-error, crimson)'}}>
+              <Text type="supporting" color="primary" style={{color: 'var(--color-error, crimson)'}}>
                 {error}
               </Text>
             ) : null}

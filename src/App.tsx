@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Theme} from '@astryxdesign/core/theme';
 import type {DefinedTheme} from '@astryxdesign/core/theme';
 import {HStack, VStack} from '@astryxdesign/core/Layout';
@@ -20,6 +20,7 @@ import {Projects} from './pages/Projects';
 import {Blog} from './pages/Blog';
 import {PostPage} from './pages/Post';
 import {GitHubIcon, SunIcon, MoonIcon, PaletteIcon} from './icons';
+import {runThemeTransition, pointFromEvent} from './viewTransition';
 import {profile} from './data/profile';
 
 const THEMES: Record<string, DefinedTheme> = {
@@ -60,6 +61,7 @@ export default function App() {
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
   const [scrolled, setScrolled] = useState(false);
+  const paletteRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, themeId);
@@ -133,19 +135,26 @@ export default function App() {
                 <span style={{width: 1, height: 22, background: 'var(--color-border)', margin: '0 6px'}} aria-hidden />
 
                 {/* Theme picker — now in the top nav */}
-                <DropdownMenu
-                  button={{
-                    label: activeThemeLabel,
-                    variant: 'ghost',
-                    size: 'sm',
-                    icon: <PaletteIcon size={16} />,
-                  }}
-                  menuWidth={160}
-                  items={THEME_ORDER.map((t) => ({
-                    label: t.label,
-                    onClick: () => setThemeId(t.id),
-                  }))}
-                />
+                <span ref={paletteRef} style={{display: 'inline-flex'}}>
+                  <DropdownMenu
+                    button={{
+                      label: activeThemeLabel,
+                      variant: 'ghost',
+                      size: 'sm',
+                      icon: <PaletteIcon size={16} />,
+                    }}
+                    menuWidth={160}
+                    items={THEME_ORDER.map((t) => ({
+                      label: t.label,
+                      onClick: () => {
+                        const el = paletteRef.current;
+                        const r = el?.getBoundingClientRect();
+                        const origin = r ? {x: r.left + r.width / 2, y: r.top + r.height / 2} : null;
+                        runThemeTransition(origin, () => setThemeId(t.id));
+                      },
+                    }))}
+                  />
+                </span>
 
                 {/* Light / dark toggle — now in the top nav */}
                 <IconButton
@@ -153,7 +162,10 @@ export default function App() {
                   icon={mode === 'dark' ? <SunIcon size={17} /> : <MoonIcon size={17} />}
                   variant="ghost"
                   size="sm"
-                  clickAction={() => setMode(mode === 'dark' ? 'light' : 'dark')}
+                  clickAction={(e) => {
+                    const origin = pointFromEvent(e);
+                    runThemeTransition(origin, () => setMode(mode === 'dark' ? 'light' : 'dark'));
+                  }}
                 />
               </HStack>
             </HStack>

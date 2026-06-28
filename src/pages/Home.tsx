@@ -137,7 +137,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             {latest.map((post, i) => (
               <Reveal key={post.slug} delay={i * 80}>
                 <div className="hv-lift">
-                  <Card padding={5} variant="muted">
+                  <Card padding={5}>
                     <VStack gap={2}>
                       <HStack gap={2} vAlign="center" wrap="wrap">
                         <Text type="supporting" color="secondary">{formatDate(post.date)}</Text>

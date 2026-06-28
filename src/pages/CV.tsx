@@ -59,7 +59,7 @@ export function CV() {
             <Grid columns={{minWidth: 240}} gap={3}>
               {profile.skills.map((s, i) => (
                 <div className="hv-lift" key={s.group} style={{['--i' as string]: i}}>
-                  <Card padding={4} variant="muted">
+                  <Card padding={4}>
                     <VStack gap={2}>
                       <Text type="label">{s.group}</Text>
                       <HStack gap={2} wrap="wrap">
@@ -118,7 +118,7 @@ export function CV() {
             {profile.education.map((ed, i) => (
               <Reveal key={i} delay={i * 70}>
                 <div className="hv-lift">
-                  <Card padding={5} variant="muted">
+                  <Card padding={5}>
                     <VStack gap={1}>
                       <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
                         <Heading level={4}>{ed.title}</Heading>
