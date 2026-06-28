@@ -2,7 +2,6 @@ import {HStack, VStack} from '@astryxdesign/core/Layout';
 import {Grid} from '@astryxdesign/core/Grid';
 import {Heading, Text} from '@astryxdesign/core/Text';
 import {Button} from '@astryxdesign/core/Button';
-import {Card} from '@astryxdesign/core/Card';
 import {Badge} from '@astryxdesign/core/Badge';
 import {Divider} from '@astryxdesign/core/Divider';
 
@@ -71,14 +70,14 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
       <section style={{...wrap, paddingTop: 12, paddingBottom: 36}}>
         <Reveal>
           <div className="hv-lift">
-            <Card padding={6}>
+            <TileGridHover surface padding={24} rows={5} columns={10} coverage={80}>
               <VStack gap={3}>
                 <Heading level={3}>About</Heading>
                 {profile.about.map((para, i) => (
                   <Text key={i} type="body" color="secondary">{para}</Text>
                 ))}
               </VStack>
-            </Card>
+            </TileGridHover>
           </div>
         </Reveal>
       </section>
@@ -96,7 +95,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             {featured.map((p, i) => (
               <Reveal key={p.name} delay={i * 80}>
                 <div className="hv-lift">
-                  <TileGridHover surface padding={20} rows={4} columns={6}>
+                  <TileGridHover surface padding={20} rows={4} columns={6} coverage={80}>
                     <VStack gap={3}>
                       <HStack gap={2} vAlign="center" justify="between">
                         <Heading level={4}>{p.title}</Heading>
@@ -138,7 +137,7 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             {latest.map((post, i) => (
               <Reveal key={post.slug} delay={i * 80}>
                 <div className="hv-lift">
-                  <TileGridHover surface padding={20} rows={4} columns={6}>
+                  <TileGridHover surface padding={20} rows={4} columns={6} coverage={80}>
                     <VStack gap={2}>
                       <HStack gap={2} vAlign="center" wrap="wrap">
                         <Text type="supporting" color="secondary">{formatDate(post.date)}</Text>

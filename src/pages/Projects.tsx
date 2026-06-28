@@ -57,7 +57,7 @@ export function Projects() {
           {shown.map((p, i) => (
             <Reveal key={p.name} delay={(i % 3) * 70}>
               <div className="hv-lift">
-                <TileGridHover surface padding={20} rows={4} columns={6}>
+                <TileGridHover surface padding={20} rows={4} columns={6} coverage={80}>
                   <VStack gap={3}>
                     <HStack gap={2} vAlign="center" justify="between">
                       <Heading level={4}>{p.title}</Heading>

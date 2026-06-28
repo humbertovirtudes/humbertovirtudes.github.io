@@ -27,6 +27,7 @@ export function TileGridHover({
   color,
   surface = false,
   padding = 0,
+  coverage = 100,
 }: {
   children: ReactNode;
   columns?: number;
@@ -35,6 +36,7 @@ export function TileGridHover({
   color?: string; // CSS color or var(); defaults to themed blue
   surface?: boolean; // render a themed card surface (bg + border)
   padding?: number; // inner padding when used as a card shell
+  coverage?: number; // % of height the grid covers (top-down); <100 fades out the bottom (EPS FADE_START_RATIO=0.4)
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(false);
@@ -65,6 +67,15 @@ export function TileGridHover({
 
   const tileW = `${TILE / columns}%`;
   const tileH = `${TILE / rows}%`;
+
+  // EPS fade mask: solid to coverage*0.4%, transparent by coverage%.
+  const fadeMask =
+    coverage < 100
+      ? (`linear-gradient(to bottom, #000 0%, #000 ${coverage * 0.4}%, transparent ${coverage}%)`)
+      : undefined;
+  const maskStyle: CSSProperties | undefined = fadeMask
+    ? ({WebkitMaskImage: fadeMask, maskImage: fadeMask} as CSSProperties)
+    : undefined;
 
   function onEnter(e: React.MouseEvent<HTMLDivElement>) {
     const el = ref.current;
@@ -109,7 +120,7 @@ export function TileGridHover({
         {/* glow */}
         <div className="hv-tg-glow" />
         {/* tiles */}
-        <div className="hv-tg-tiles">
+        <div className="hv-tg-tiles" style={maskStyle}>
           {tiles.map((t, i) => (
             <div
               key={i}
@@ -119,7 +130,7 @@ export function TileGridHover({
           ))}
         </div>
         {/* grid lines */}
-        <div className="hv-tg-lines">
+        <div className="hv-tg-lines" style={maskStyle}>
           {hLines.map((l) => {
             const idx = entryBottom ? hLines.length - 1 - l.i : l.i;
             return (
