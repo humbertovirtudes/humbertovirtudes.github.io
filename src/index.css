@@ -1,0 +1,38 @@
+/* Personal site — Astryx + landing styles */
+@layer reset, astryx-base, astryx-theme, app;
+
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+
+@import "@astryxdesign/theme-neutral/theme.css";
+@import "@astryxdesign/theme-matcha/theme.css";
+@import "@astryxdesign/theme-stone/theme.css";
+@import "@astryxdesign/theme-gothic/theme.css";
+@import "@astryxdesign/theme-chocolate/theme.css";
+
+@layer app {
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background-color: var(--color-background-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body, [data-astryx-theme] {
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  .hv-grid {
+    background-image:
+      linear-gradient(var(--color-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    background-size: 34px 34px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 30% 0%, #000 25%, transparent 70%);
+    mask-image: radial-gradient(ellipse 75% 55% at 30% 0%, #000 25%, transparent 70%);
+    opacity: 0.45;
+  }
+  /* let in-page anchor links and lists breathe inside markdown */
+  article ul, article ol { padding-left: 20px; }
+}

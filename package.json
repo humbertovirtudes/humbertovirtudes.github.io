@@ -1,0 +1,30 @@
+{
+  "name": "humbertovirtudes-github-io",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "^0.1.1",
+    "@astryxdesign/theme-butter": "^0.1.1",
+    "@astryxdesign/theme-chocolate": "^0.1.1",
+    "@astryxdesign/theme-gothic": "^0.1.1",
+    "@astryxdesign/theme-matcha": "^0.1.1",
+    "@astryxdesign/theme-neutral": "^0.1.1",
+    "@astryxdesign/theme-stone": "^0.1.1",
+    "@astryxdesign/theme-y2k": "^0.1.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.3"
+  }
+}
