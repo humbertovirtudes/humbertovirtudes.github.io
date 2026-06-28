@@ -4,6 +4,7 @@ import type {DefinedTheme} from '@astryxdesign/core/theme';
 import {HStack, VStack} from '@astryxdesign/core/Layout';
 import {Text} from '@astryxdesign/core/Text';
 import {Button} from '@astryxdesign/core/Button';
+import {Link} from '@astryxdesign/core/Link';
 import {IconButton} from '@astryxdesign/core/IconButton';
 import {DropdownMenu} from '@astryxdesign/core/DropdownMenu';
 
@@ -196,7 +197,10 @@ export default function App() {
           <div style={{maxWidth: 1040, margin: '0 auto', padding: '24px 20px'}}>
             <HStack gap={3} vAlign="center" justify="between" wrap="wrap">
               <Text type="supporting" color="secondary">
-                © {new Date().getFullYear()} Humberto Virtudes · Built with Astryx
+                © {new Date().getFullYear()} Humberto Virtudes · Built with{' '}
+                <Link href="https://github.com/facebook/astryx" target="_blank">
+                  Astryx
+                </Link>
               </Text>
               <HStack gap={1} vAlign="center" wrap="wrap">
                 <Button label="GitHub" variant="ghost" size="sm" icon={<GitHubIcon size={15} />} href={profile.github} target="_blank" />
