@@ -47,14 +47,6 @@ export function Home({navigate}: {navigate: (to: string) => void}) {
             <div className="hv-enter hv-enter-3">
               <Badge variant="neutral" label={profile.location} icon={<PinIcon size={14} />} />
             </div>
-            <HStack gap={3} vAlign="center" wrap="wrap">
-              <div className="hv-enter hv-enter-4">
-                <Button label="View projects" variant="primary" size="lg" clickAction={() => navigate('/projects')} />
-              </div>
-              <div className="hv-enter hv-enter-4">
-                <Button label="Read the CV" variant="secondary" size="lg" clickAction={() => navigate('/cv')} />
-              </div>
-            </HStack>
             <HStack gap={1} vAlign="center" wrap="wrap" className="hv-enter hv-enter-4">
               <Button label="GitHub" variant="ghost" size="sm" icon={<GitHubIcon size={16} />} href={profile.github} target="_blank" />
               <Button label="Email" variant="ghost" size="sm" icon={<MailIcon size={16} />} href={`mailto:${profile.email}`} />

@@ -112,16 +112,21 @@ export default function App() {
               >
                 <span
                   style={{
-                    width: 30, height: 30, borderRadius: 9,
+                    width: 34, height: 34, borderRadius: 9,
                     background: 'var(--color-text-primary)',
                     color: 'var(--color-background-body)',
                     display: 'grid', placeItems: 'center',
-                    fontWeight: 800, fontSize: 14,
+                    fontWeight: 800, fontSize: 14, flexShrink: 0,
                   }}
                 >
                   HV
                 </span>
-                <Text type="large" weight="bold">Humberto Virtudes</Text>
+                <span style={{display: 'flex', flexDirection: 'column', lineHeight: 1.15, textAlign: 'left'}}>
+                  <Text type="large" weight="bold">Humberto Virtudes</Text>
+                  <Text type="supporting" color="secondary">
+                    Staff Software Engineer · Front-End Specialist · @Meta
+                  </Text>
+                </span>
               </button>
 
               {/* Nav + controls */}
