@@ -24,18 +24,23 @@ export function CV() {
       <VStack gap={6}>
         {/* Header */}
         <Reveal>
-          <VStack gap={3}>
-            <Heading level={1}>Curriculum Vitae</Heading>
-            <Text type="large" color="secondary">{profile.tagline}</Text>
-            <HStack gap={2} vAlign="center" wrap="wrap">
-              <Badge variant="neutral" label={profile.location} icon={<PinIcon size={14} />} />
-              <Button label="GitHub" variant="ghost" size="sm" icon={<GitHubIcon size={15} />} href={profile.github} target="_blank" />
-              <Button label={profile.email} variant="ghost" size="sm" icon={<MailIcon size={15} />} href={`mailto:${profile.email}`} />
-              {profile.linkedin ? (
-                <Button label="LinkedIn" variant="ghost" size="sm" icon={<LinkedInIcon size={15} />} href={profile.linkedin} target="_blank" />
-              ) : null}
-            </HStack>
-          </VStack>
+          <HStack gap={4} vAlign="center" wrap="wrap">
+            <div className="hv-avatar" style={{flexShrink: 0}}>
+              <img src="./profile.jpeg" alt="Humberto Virtudes" width={104} height={104} />
+            </div>
+            <VStack gap={3}>
+              <Heading level={1}>Curriculum Vitae</Heading>
+              <Text type="large" color="secondary">{profile.tagline}</Text>
+              <HStack gap={2} vAlign="center" wrap="wrap">
+                <Badge variant="neutral" label={profile.location} icon={<PinIcon size={14} />} />
+                <Button label="GitHub" variant="ghost" size="sm" icon={<GitHubIcon size={15} />} href={profile.github} target="_blank" />
+                <Button label={profile.email} variant="ghost" size="sm" icon={<MailIcon size={15} />} href={`mailto:${profile.email}`} />
+                {profile.linkedin ? (
+                  <Button label="LinkedIn" variant="ghost" size="sm" icon={<LinkedInIcon size={15} />} href={profile.linkedin} target="_blank" />
+                ) : null}
+              </HStack>
+            </VStack>
+          </HStack>
         </Reveal>
 
         <Divider />
