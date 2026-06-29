@@ -13,7 +13,7 @@ export const profile = {
 
   about: [
     "I'm a Staff Software Engineer and front-end specialist based in Singapore. I care about the details that make an interface feel effortless — motion, accessibility, performance, and a design system that scales.",
-    'I currently build at Meta, and my work spans React / TypeScript front-ends, design systems (StyleX), and practical AI tooling — from a video-to-shorts pipeline to a ComfyUI front-end.',
+    'I currently build at Meta, and my work spans React / TypeScript front-ends, design systems, and practical AI tooling — from a video-to-shorts pipeline to a ComfyUI front-end.',
     "I learn in the open. Most of what I make ends up on GitHub.",
   ],
 
