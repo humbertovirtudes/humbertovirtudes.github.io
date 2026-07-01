@@ -8,12 +8,18 @@
 //
 // Driven by the Web Animations API so we can compute a pixel radius to the
 // farthest viewport corner and target the correct snapshot per direction.
-// A data attribute on <html> flips the pseudo-element stacking order so the
-// animated snapshot is always on top.
+//
+// Performance notes (learned the hard way debugging a sibling app):
+//  - Animating clip-path circle() re-rasterizes the mask each frame. Keeping the
+//    body opaque means any GPU tile seam falls on a uniform color (no shimmer),
+//    and we only ever animate ONE snapshot — the other is left completely
+//    static (animation:none in CSS) so the compositor does no work on it.
+//  - We snap the origin to whole device pixels so the clip circle rasterizes on
+//    a stable pixel grid frame-to-frame (avoids sub-pixel edge stepping).
+//  - matchMedia is queried once and cached, not per toggle.
 //
 // The toggle is NEVER disabled. If a click arrives while a transition is still
-// running, we skip the in-flight one and apply the new state immediately, so
-// rapid toggling always feels responsive.
+// running, we skip the in-flight one and apply the new state immediately.
 
 type Point = {x: number; y: number};
 type Direction = 'in' | 'out';
@@ -25,9 +31,16 @@ type ViewTransition = {
 };
 
 const DURATION = 800; // ms
+const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 let active: ViewTransition | null = null;
 let activeAnim: Animation | null = null;
+
+// Cache the reduced-motion query once (it's global and rarely changes).
+const reducedMotionMQ =
+  typeof window !== 'undefined' && window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : null;
 
 export function runThemeTransition(
   origin: Point | null,
@@ -38,11 +51,7 @@ export function runThemeTransition(
     startViewTransition?: (cb: () => void) => ViewTransition;
   };
 
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-  if (!doc.startViewTransition || prefersReduced) {
+  if (!doc.startViewTransition || reducedMotionMQ?.matches) {
     apply();
     return;
   }
@@ -57,18 +66,24 @@ export function runThemeTransition(
   }
 
   const inward = opts?.direction === 'in';
-  const x = origin ? origin.x : window.innerWidth / 2;
-  const y = origin ? origin.y : 0;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  // Snap the origin to whole device pixels so the clip circle rasterizes on a
+  // stable grid each frame (reduces sub-pixel edge stepping / repaint cost).
+  const dpr = window.devicePixelRatio || 1;
+  const snap = (v: number) => Math.round(v * dpr) / dpr;
+  const x = snap(origin ? origin.x : w / 2);
+  const y = snap(origin ? origin.y : 0);
 
-  // Radius from the origin to the farthest corner — circle fully covers viewport.
-  const endRadius = Math.hypot(
-    Math.max(x, window.innerWidth - x),
-    Math.max(y, window.innerHeight - y),
+  // Radius to the farthest corner — circle fully covers the viewport.
+  const endRadius = Math.ceil(
+    Math.hypot(Math.max(x, w - x), Math.max(y, h - y)),
   );
 
   // Stacking: 'in' puts the OLD snapshot on top (so it can shrink away);
   // 'out' puts the NEW snapshot on top (so it can grow in).
-  document.documentElement.setAttribute('data-vt-dir', inward ? 'in' : 'out');
+  const rootEl = document.documentElement;
+  rootEl.setAttribute('data-vt-dir', inward ? 'in' : 'out');
 
   const transition = doc.startViewTransition(apply);
   active = transition;
@@ -81,7 +96,7 @@ export function runThemeTransition(
         ? '::view-transition-old(root)'
         : '::view-transition-new(root)';
 
-      activeAnim = document.documentElement.animate(
+      activeAnim = rootEl.animate(
         {
           clipPath: [
             `circle(${from} at ${x}px ${y}px)`,
@@ -90,7 +105,7 @@ export function runThemeTransition(
         },
         {
           duration: DURATION,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          easing: EASING,
           pseudoElement: pseudo,
           fill: 'forwards',
         },
@@ -103,7 +118,7 @@ export function runThemeTransition(
       if (active === transition) {
         active = null;
         activeAnim = null;
-        document.documentElement.removeAttribute('data-vt-dir');
+        rootEl.removeAttribute('data-vt-dir');
       }
     })
     .catch(() => {});

@@ -300,6 +300,11 @@
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+  /* Perf: isolate each snapshot's paint and promote it to its own compositor
+     layer so the growing clip-path animates on the GPU without repainting
+     siblings. The body is opaque, so any tile seam falls on a uniform color. */
+  will-change: clip-path;
+  contain: paint;
 }
 
 /* Default / 'out': reveal the new theme on top. */
